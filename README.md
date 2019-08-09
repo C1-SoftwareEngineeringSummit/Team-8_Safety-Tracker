@@ -2,17 +2,13 @@
 Project for the Capital One August 2019 hackathon
 
 # General Functionalities
-Automatic sensing for a personal safety tracker through the following functionalities:
-- Two-factor authentication system for pre-loading the device to decrease the risk of false alarms
-- Auto-sensing environment and vital factors indicating panic or fear (i.e. heart rate/pulse, velocity of body movement)
-- Manual deactivation of false alarms
-- Alert for user
+Android Application that monitors the financial habits and actively helps improve them by cutting on unnecessary spending
+Customer sets personal deadlines based on the application's suggestions and agrees to locking their card if they go above the set limit behind unnecessary purchases (e.g. alcohol, $10 starbucks, and candies everyday), without impacting credit score or transaction ability in other categories.
+The block can be lifted by depositing more money in the account of that particular category.
 
 # Technologies Used
-- Arduino Uno
-- Android Studio
-- Piezo sensor
-- (Voice recognition)
-- ML adjustment for physical statistics
+-Android Studio (Java and XML)
+-Capital One API
 
-# 
+# Competitor note
+Certain platforms do provide a similar service; however, there is no existing platform to put holds and actvely encourage wise spending without causing any unwanted inconvenience and security to emergency situations with easy transfer options. Thhis feature distinguishes our project: M-Money, from other minty projects.
