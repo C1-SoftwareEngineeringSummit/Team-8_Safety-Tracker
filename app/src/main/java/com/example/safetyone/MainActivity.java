@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.wireWidgets();
         this.signUp();
+        this.login();
 
     }
 
@@ -34,16 +35,31 @@ public class MainActivity extends AppCompatActivity {
         this.signIn = findViewById(R.id.button_signin);
         this.signUp = findViewById(R.id.button_signup);
         this.remember = findViewById(R.id.checkBox_remember);
+
+        Toast.makeText(MainActivity.this, "Please fill out both fields before signing in or registering", Toast.LENGTH_LONG).show();
     }
 
     private void login() {
         //TODO sign in w/ CapitalOne API
+        this.signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Signing In", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(MainActivity.this, HomeActivity.class);
+                i.putExtra("loggedIn", true);
+                i.putExtra("username", username.toString());
+                i.putExtra("password", password.toString());
+                i.putExtra("remember", remember.isChecked());
+                startActivity(i);
+            }
+        });
+
     }
 
     private void signUp() {
         //TODO sign up w/ CapitalOneAPI
         //TODO will redirect to registration activity
-        System.out.print("setting on click listener");
+//        System.out.print("setting on click listener");
         this.signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

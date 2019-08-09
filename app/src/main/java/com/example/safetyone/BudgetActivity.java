@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -17,20 +18,19 @@ import static java.lang.StrictMath.abs;
 public class BudgetActivity extends AppCompatActivity {
 
     private RecyclerView catList;
-    private TextView allocated;
-    private TextView amountAllocated;
-    private TextView left;
-    private TextView amountLeft;
-    private TextView budget;
-    private TextView budgetAmount;
-    private ImageButton editBudget;
-    private ImageButton createCategory;
+    private TextView allocated, amountAllocated, left, amountLeft, budget, budgetAmount;
+    private ImageButton editBudget, createCategory;
+    private Button finish;
 
     private int averageIncome = 5114;
+    private boolean finished = false;
+    private User user;
 
     //Supposed to be initialized with intent
     private int income;// = 5000;
     private int age;// = 18;
+
+    ArrayList<Category> categoryList = new ArrayList<>();
 
     public void onCreate (Bundle savedInstance){
 
@@ -42,17 +42,24 @@ public class BudgetActivity extends AppCompatActivity {
 
         //Fetching Intents
         Intent intent = getIntent();
-        this.income =intent.getIntExtra("income", 5114);
-        this.age = intent.getIntExtra("age", 38);
+//        this.income =intent.getIntExtra("income", 5114);
+//        this.age = intent.getIntExtra("age", 38);
+        this.user = (User) intent.getSerializableExtra("user");
 
         //Generating Automatic Categories
-        ArrayList<Category> categoryList = new ArrayList<>();
         categoryList = resetCategories(categoryList);
 
-        //Implementing CategoryAdapter with recycler view
-        CategoryAdapter adapter = new CategoryAdapter(categoryList);
-        catList.setLayoutManager(new LinearLayoutManager(this));
-        catList.setAdapter(adapter);
+        //Fetch Categories
+        fetchAdapter(categoryList);
+
+        //add category
+        createCategory.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                categoryList.add(new Category("New Category", 0, 0));
+                fetchAdapter(categoryList);
+            }
+        });
     }
 
     private void wireWidgets() {
@@ -66,6 +73,7 @@ public class BudgetActivity extends AppCompatActivity {
         budgetAmount = findViewById(R.id.textView_budgetAmount);
         editBudget = findViewById(R.id.imageButton_editBudget);
         createCategory = findViewById(R.id.imageButton_addCategory);
+        this.finish = findViewById(R.id.button_finish);
     }
 
     private ArrayList<Category> resetCategories(ArrayList<Category> categoryList){
@@ -113,5 +121,12 @@ public class BudgetActivity extends AppCompatActivity {
     private int getGenericExpense(int housing, int power, int utility, int grocery, int education) {
         int remaining = this.income - (housing + power + utility + grocery + education);
         return remaining / 4;
+    }
+    
+    //Implementing CategoryAdapter with recycler view
+    void fetchAdapter(List<Category> categoryList){
+        CategoryAdapter adapter = new CategoryAdapter(categoryList);
+        catList.setLayoutManager(new LinearLayoutManager(this));
+        catList.setAdapter(adapter);
     }
 }
